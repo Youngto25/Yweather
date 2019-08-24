@@ -3,7 +3,7 @@
       <header>
         <section class="title">
           <span>{{ city }}</span>
-          <span>{{ day }}</span>
+          <span>{{ week }}</span>
           <span>{{ time }}</span>
         </section>
         <section class="search">
@@ -22,7 +22,7 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Input } from 'element-ui'; 
+import { Button, Input,Notification } from 'element-ui'; 
 import cityList from '../assets/city.json'
 var echarts = require("echarts");
 Vue.use(Button)
@@ -65,11 +65,23 @@ export default {
       this.day = this.$eventBus.day
       this.week = this.$eventBus.week
     },
+    open() {
+      const h = this.$createElement;
+      this.$notify({
+        title: '提醒',
+        message: '没有该地区天气情况',
+        offset: 100
+      })
+    },
     getTime(){
       let time = new Date()
       let hour = time.getHours()
-      let minute = parseInt(time.getMinutes())
-      this.time = `${hour}:${minute}`
+      let h = this.formatte(hour)
+      let minute = time.getMinutes()
+      let m = this.formatte(minute)
+      let second = time.getSeconds()
+      let s = this.formatte(second)
+      this.time = `${h}:${m}:${s}`
     },
     search(){
       let isSearch = false
@@ -80,11 +92,15 @@ export default {
         }
       }
       if(!isSearch){
-        this.value = "抱歉，没有收录此地区信息"
-          setTimeout(()=>{
-            this.value = "上海"
-          },2000)
+        this.open()
       }
+    },
+    formatte(time){
+      if((time+'').length === 1){
+        time = '0' + time
+        return time
+      }
+      return time
     }
   }
 };
@@ -125,6 +141,7 @@ footer {
         margin-right: 8px;
         &:first-child {
           font-size: 28px;
+          margin-right: 16px;
         }
       }
     }

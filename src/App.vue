@@ -4,7 +4,7 @@
     <main>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="生活建议" name="first" class="test first">
-          <el-button type="primary" class="see-air" @click="change">查看空气情况</el-button>
+          <el-button type="primary" class="see-air" @click="show = !show">查看空气情况</el-button>
           <div class="message">
             <svg class="icon" aria-hidden="true">
               <use :xlink:href="wea_svg"></use>
@@ -18,21 +18,21 @@
               style="width: 80%;">
               <el-table-column
                 prop="title"
-                label="主题"
-                width="180">
+                label="主题">
               </el-table-column>
               <el-table-column
                 prop="level"
-                label="等级"
-                width="180">
+                label="等级">
               </el-table-column>
               <el-table-column
                 prop="desc"
                 label="建议">
               </el-table-column>
             </el-table>
-        </div>
-          <air class="air-wrapper" :class="[show?'active':'']"/>
+          </div>
+          <transition name="el-zoom-in-center">
+            <air class="air-wrapper" v-show="show"/>
+          </transition>
         </el-tab-pane>
         <el-tab-pane label="各时段情况" name="second" class="test second">
           <el-button type="primary" class="see-air" @click="change2">今日各时段情况</el-button>
@@ -40,7 +40,7 @@
             <el-table
               :data="hours"
               border
-              style="width: 80%">
+              style="width: 50%">
               <el-table-column
                 prop="day"
                 label="时间">
@@ -66,7 +66,7 @@
           <tem class="tem-wrapper" :class="[show2?'active':'']"/>
         </el-tab-pane>
         <el-tab-pane label="未来一周情况" name="third" class="test third">
-          <el-button type="primary" class="see-air" @click="change3">观看一周详情</el-button>
+          <el-button type="primary" class="see-air" @click="show3 = !show3">观看一周详情</el-button>
           <div class="index-table">
             <el-table
               :data="all"
@@ -99,10 +99,9 @@
               </el-table-column>
             </el-table>
         </div>
-          <next class="next-wrapper" :class="[show3?'active':'']"/>
-        </el-tab-pane>
-        <el-tab-pane label="定时任务补偿" name="fourth">
-          <map-item></map-item>
+        <transition name="el-fade-in">
+          <next class="next-wrapper" v-show="show3"/>
+        </transition>
         </el-tab-pane>
       </el-tabs>   
     </main>
@@ -120,17 +119,17 @@
 import Vue from 'vue'
 import './svg/weather'
 import '../theme/tabs.css'
-import { Tabs,TabPane,Table,TableColumn } from 'element-ui'; 
+import { Tabs,TabPane,Table,TableColumn,Transfer } from 'element-ui'; 
 import Header from "./components/header.vue";
 import air from './components/air.vue'
 import tem from './components/tem.vue'
 import next from './components/nextDay.vue'
 import map from './components/map.vue'
-//import shanghai from "./assets/shanghai.json"
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(Transfer)
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
 Vue.prototype.$eventBus = new Vue()
 export default {
@@ -190,13 +189,13 @@ export default {
       }
       this.$eventBus.hour = this.hour
       this.update_time = shanghai.update_time
-      this.$eventBus.city = shanghai.city;
-      this.$eventBus.wea = shanghai.data[0].wea;
-      this.$eventBus.tem = parseInt(shanghai.data[0].tem);
+      this.$eventBus.city = shanghai.city
+      this.$eventBus.wea = shanghai.data[0].wea
+      this.$eventBus.tem = parseInt(shanghai.data[0].tem)
       this.$eventBus.cityEn = shanghai.cityEn;
-      this.$eventBus.air_tips = shanghai.data[0].air_tips;
-      this.wea_svg = '#icon-' + shanghai.data[0].wea_img;
-      let x = shanghai.data[0].hours;
+      this.$eventBus.air_tips = shanghai.data[0].air_tips
+      this.wea_svg = '#icon-' + shanghai.data[0].wea_img
+      let x = shanghai.data[0].hours
       for (let i = 0; i < x.length; i++) {
         let y = parseInt(x[i].tem);
         this.tems.push(y);
@@ -212,23 +211,19 @@ export default {
       }
       this.$eventBus.weeks = this.weeks
       this.$eventBus.temss = this.temss
-      this.index = shanghai.data[0].index
       this.hours = shanghai.data[0].hours
       this.all = shanghai.data
+      let yang = shanghai.data[0].index
+      yang[1].title = ''
+      this.index = yang
     },
     header(column,event){
       console.log(column)
       console.log(event)
     },
     handleClick(){},
-    change(){
-      this.show = !this.show
-    },
     change2(){
       this.show2 = !this.show2
-    },
-    change3(){
-      this.show3 = !this.show3
     },
     getMin(x) {
       let arr = JSON.parse(JSON.stringify(x));
@@ -286,11 +281,9 @@ main{
     .air-wrapper{
       position: absolute;
       background: #ffffff;
-      transform: translateY(-500%);
-      &.active{
-        transition: all 0.5s;
-        transform: translateY(10%);
-      }
+      transform: translateY(10%);
+      border: 1px solid #cccccc;
+      box-shadow: 3px 3px 8px #888888;
     }
   }
   .second{
@@ -298,6 +291,8 @@ main{
       position: absolute;
       background: #ffffff;
       transform: translateY(-500%);
+      border: 1px solid #cccccc;
+      box-shadow: 3px 3px 8px #888888;
       &.active{
         transition: all 0.5s;
         transform: translateY(8%);
@@ -308,11 +303,9 @@ main{
     .next-wrapper{
       position: absolute;
       background: #ffffff;
-      transform: translateY(-500%);
-      &.active{
-        transition: all 0.5s;
-        transform: translateY(10%);
-      }
+      transform: translateY(8%);
+      border: 1px solid #cccccc;
+      box-shadow: 3px 3px 8px #888888;
     }
   }
 }
