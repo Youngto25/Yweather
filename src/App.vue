@@ -70,7 +70,6 @@
           <div class="index-table">
             <el-table
               :data="all"
-              header-click="header(column,event)"
               border
               style="width: 80%">
               <el-table-column
@@ -124,7 +123,6 @@ import Header from "./components/header.vue";
 import air from './components/air.vue'
 import tem from './components/tem.vue'
 import next from './components/nextDay.vue'
-import map from './components/map.vue'
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Table)
@@ -138,8 +136,7 @@ export default {
     Header,
     air,
     tem,
-    next,
-    'map-item': map
+    next
   },
   data() {
     return {
@@ -176,7 +173,6 @@ export default {
         })
     },
     render(shanghai) {
-      console.log(shanghai)
       this.hour = []
       this.tems = []
       this.temss = []
@@ -216,10 +212,6 @@ export default {
       let yang = shanghai.data[0].index
       yang[1].title = ''
       this.index = yang
-    },
-    header(column,event){
-      console.log(column)
-      console.log(event)
     },
     handleClick(){},
     change2(){

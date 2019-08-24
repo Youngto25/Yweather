@@ -1,5 +1,8 @@
 <template>
     <footer>
+      <section class="logo">
+        <img src="../assets/logo.png" alt="logo">
+      </section>
       <header>
         <section class="title">
           <span>{{ city }}</span>
@@ -22,9 +25,8 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Input,Notification } from 'element-ui'; 
+import { Button, Input } from 'element-ui'; 
 import cityList from '../assets/city.json'
-var echarts = require("echarts");
 Vue.use(Button)
 Vue.use(Input)
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
@@ -66,7 +68,6 @@ export default {
       this.week = this.$eventBus.week
     },
     open() {
-      const h = this.$createElement;
       this.$notify({
         title: '提醒',
         message: '没有该地区天气情况',
@@ -124,8 +125,17 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  .logo{
+    position: absolute;
+    left: 0;
+    top: 3;
+    img{
+      height: 45px;
+    }
+    
+  }
   header {
-    width: 90%;
+    width: 70%;
     border-radius: 8px;
     color: #ffffff;
     display: flex;
@@ -140,7 +150,7 @@ footer {
       span {
         margin-right: 8px;
         &:first-child {
-          font-size: 28px;
+          font-size: 24px;
           margin-right: 16px;
         }
       }
