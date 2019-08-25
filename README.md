@@ -1,29 +1,5 @@
-# news
+# Yweather
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 项目介绍
+一款基于 Vue 框架的在线天气查询网站，可查询全国3000+地区的天气状况，并预报未来一周天气情况。利用 element-UI 组件构建页面及动画效果，使用 Echarts.js 开源可视化库来优化数据呈现方式，使用 Vue CLI 进行打包。
+技术：HTML5 + ES6 + Vue + axios + Vue CLI + SCSS + element-UI + Echarts.js
