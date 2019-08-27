@@ -102,6 +102,9 @@
           <next class="next-wrapper" v-show="show3"/>
         </transition>
         </el-tab-pane>
+        <!-- <el-tab-pane label="留言" name="fourth" class="test fourth">
+          <message></message>
+        </el-tab-pane> -->
       </el-tabs>   
     </main>
     <section class="footer">
@@ -165,8 +168,8 @@ export default {
   methods: {
     getData(e){
       let data = e || '上海'
-      this.$axios.get(`https://www.tianqiapi.com/api/?version=v1&cityid=${data}`)
-        .then(res=>res.data)
+      this.$axios.get(`https://www.tianqiapi.com/api/?version=v1&appid=25392546&appsecret=MjE7qJTU&cityid=${data}`)
+        .then(res=>{return res.data})
         .then(data=>this.render(data))
         .then(()=>{
           this.$eventBus.$emit('render')

@@ -2,7 +2,6 @@
   <div id="air" style="width: 1000px; height: 400px;"></div>
 </template>
 <script>
-import { nextTick } from 'q';
 var echarts = require("echarts");
 export default {
   data() {

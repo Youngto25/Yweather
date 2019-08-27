@@ -5,7 +5,6 @@
 </template>
 <script>
 import chart from './lineChart'
-import { nextTick } from 'q';
 export default {
   data() {
     return {
