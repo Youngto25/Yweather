@@ -15,7 +15,7 @@
     "element-theme": "^2.0.1",
     "element-ui": "^2.11.1",
     "express": "^4.17.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "sass-loader": "^7.2.0",
